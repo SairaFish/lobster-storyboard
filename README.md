@@ -87,6 +87,12 @@ storyboard-pro/
 
 ## 🎨 界面说明
 
+### 主界面
+![主界面](./docs-screenshot-main.jpg)
+
+### 镜头编辑
+![镜头编辑](./docs-screenshot-edit.jpg)
+
 ### 三栏布局
 - **左侧** - 镜头列表（支持拖拽排序）
 - **中间** - 镜头编辑器
