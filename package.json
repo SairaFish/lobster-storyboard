@@ -9,7 +9,7 @@
     "dev": "vite"
   },
   "keywords": ["storyboard", "electron", "vue"],
-  "author": "开发助理 👨‍💻",
+  "author": "SairaFish",
   "license": "MIT",
   "devDependencies": {
     "electron": "^28.0.0",
