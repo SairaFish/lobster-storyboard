@@ -1,0 +1,36 @@
+{
+  "name": "storyboard-pro",
+  "version": "1.0.0",
+  "description": "龙虾分镜 - 专业分镜制作工具",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dev": "vite"
+  },
+  "keywords": ["storyboard", "electron", "vue"],
+  "author": "开发助理 👨‍💻",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1"
+  },
+  "build": {
+    "appId": "com.storyboard.pro",
+    "productName": "龙虾分镜",
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

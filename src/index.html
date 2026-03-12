@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; connect-src 'self' https://coding.dashscope.aliyuncs.com http://*:* http://localhost:* http://127.0.0.1:*">
+  <title>🦞分镜 - Storyboard Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 顶部工具栏 - PC 端 -->
+    <header class="toolbar toolbar-desktop">
+      <div class="toolbar-desktop-left">
+        <h1>🦞 分镜</h1>
+        <div class="project-title-wrapper">
+          <input type="text" id="project-title-pc" class="project-title-input-pc" placeholder="未命名项目" readonly />
+        </div>
+      </div>
+      <div class="toolbar-desktop-center">
+        <button id="btn-new" class="btn btn-primary">📄 新建</button>
+        <button id="btn-open" class="btn">📂 打开</button>
+        <button id="btn-save" class="btn">💾 保存</button>
+      </div>
+      <div class="toolbar-desktop-right">
+        <button id="btn-export-pdf" class="btn btn-success btn-export">📑 导出 PDF</button>
+      </div>
+    </header>
+
+    <!-- 顶部工具栏 - 移动端 -->
+    <header class="toolbar toolbar-mobile">
+      <div class="toolbar-mobile-row1">
+        <h1>🦞 分镜</h1>
+        <div class="project-title-wrapper-mobile">
+          <input type="text" id="project-title-mobile" class="project-title-input-mobile" placeholder="未命名项目" readonly />
+        </div>
+        <button id="btn-export-pdf-mobile" class="btn btn-success btn-export">📑 导出 PDF</button>
+      </div>
+      <div class="toolbar-mobile-row2">
+        <button id="btn-menu-toggle" class="btn-menu-toggle">☰</button>
+        <div class="toolbar-mobile-buttons">
+          <button id="btn-new-mobile" class="btn btn-primary">📄 新建</button>
+          <button id="btn-open-mobile" class="btn">📂 打开</button>
+          <button id="btn-save-mobile" class="btn">💾 保存</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 侧边菜单（移动端） -->
+    <div id="side-menu" class="side-menu">
+      <div class="side-menu-header">
+        <h2>📋 镜头列表</h2>
+        <button id="btn-menu-close" class="btn-menu-close">✕</button>
+      </div>
+      <div class="side-menu-content">
+        <div id="shot-list" class="shot-list">
+          <!-- 镜头项目动态生成 -->
+        </div>
+        <div class="add-shot-wrapper">
+          <button id="btn-add-shot-mobile" class="btn btn-primary">➕ 添加镜头</button>
+        </div>
+      </div>
+    </div>
+    <div id="menu-overlay" class="menu-overlay"></div>
+
+    <!-- 主工作区 -->
+    <div class="workspace">
+      <!-- 左侧：镜头列表（桌面端） -->
+      <aside class="panel panel-left desktop-only">
+        <div class="panel-header">
+          <h2>📋 镜头列表</h2>
+        </div>
+        <div id="shot-list-desktop" class="shot-list">
+          <!-- 镜头项目动态生成 -->
+        </div>
+        <div class="add-shot-wrapper">
+          <button id="btn-add-shot-desktop" class="btn btn-primary">➕ 添加镜头</button>
+        </div>
+      </aside>
+
+      <!-- 中间：编辑/预览区（移动端有面包屑切换） -->
+      <main class="panel panel-center">
+        <div class="panel-header">
+          <!-- 移动端面包屑导航 -->
+          <nav class="breadcrumb" id="mobile-breadcrumb">
+            <div class="breadcrumb-item active" data-panel="editor">✏️ 编辑</div>
+            <div class="breadcrumb-item" data-panel="preview">🖼️ 画面预览</div>
+          </nav>
+          <!-- 桌面端标题 -->
+          <h2>✏️ 镜头编辑</h2>
+        </div>
+        <div id="editor-container" class="editor-container">
+          <form id="shot-editor" class="shot-editor">
+            <!-- 第一行：镜头编号 + 时长 -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="shot-number">镜头编号</label>
+                <input type="text" id="shot-number" placeholder="SC-001" readonly class="mono-font">
+              </div>
+              
+              <div class="form-group">
+                <label for="shot-duration">时长（秒）</label>
+                <input type="number" id="shot-duration" min="0.5" step="0.5" placeholder="3.0">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="shot-description">镜头描述</label>
+              <textarea id="shot-description" rows="3" placeholder="描述这个镜头的内容..."></textarea>
+            </div>
+            
+            <!-- 两列布局：镜头类型/角度/摄像机 -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="shot-type">镜头类型</label>
+                <select id="shot-type">
+                  <option value="wide">全景 (Wide)</option>
+                  <option value="medium">中景 (Medium)</option>
+                  <option value="close">特写 (Close-up)</option>
+                  <option value="extreme">大特写 (Extreme Close-up)</option>
+                  <option value="over">过肩镜头 (Over Shoulder)</option>
+                  <option value="point">主观视角 (POV)</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="shot-angle">拍摄角度</label>
+                <select id="shot-angle">
+                  <option value="eye">平视 (Eye Level)</option>
+                  <option value="high">俯视 (High Angle)</option>
+                  <option value="low">仰视 (Low Angle)</option>
+                  <option value="bird">鸟瞰 (Bird's Eye)</option>
+                  <option value="worm">虫视 (Worm's Eye)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="shot-camera">摄像机运动</label>
+              <select id="shot-camera">
+                <option value="static">固定 (Static)</option>
+                <option value="pan">摇镜 (Pan)</option>
+                <option value="tilt">俯仰 (Tilt)</option>
+                <option value="zoom">推拉 (Zoom)</option>
+                <option value="track">跟踪 (Track)</option>
+                <option value="dolly">移动 (Dolly)</option>
+                <option value="hand">手持 (Handheld)</option>
+              </select>
+            </div>
+            
+            <hr style="border:none;border-top:1px solid var(--border-color);margin:15px 0;">
+            
+            <!-- 音频相关字段 - 两列布局 -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="shot-dialogue">对白</label>
+                <textarea id="shot-dialogue" rows="2" placeholder="角色对白内容..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="shot-narration">旁白</label>
+                <textarea id="shot-narration" rows="2" placeholder="旁白/解说词..."></textarea>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="shot-ambience">环境音</label>
+              <input type="text" id="shot-ambience" placeholder="环境音/音效...">
+            </div>
+            
+            <div class="form-group">
+              <label for="shot-notes">备注/说明</label>
+              <textarea id="shot-notes" rows="2" placeholder="额外的拍摄说明..."></textarea>
+            </div>
+          </form>
+          <div id="no-selection" class="no-selection">
+            <p>👈 请从左侧选择一个镜头进行编辑</p>
+          </div>
+        </div>
+        
+        <!-- 预览容器（移动端切换显示，桌面端隐藏） -->
+        <div id="preview-container" class="preview-container mobile-only" style="display:none;">
+          <div class="canvas-wrapper">
+            <canvas id="preview-canvas" width="400" height="300"></canvas>
+          </div>
+          <input type="file" id="shot-thumbnail" accept="image/*" style="display:none;">
+          
+          <button type="button" id="btn-upload-shot" class="btn" style="width:100%;padding:10px 16px;font-size:14px;">📷 上传画面</button>
+          
+          <div class="preview-info">
+            <div id="preview-shot-number">镜头：--</div>
+            <div id="preview-shot-type">类型：--</div>
+            <div id="preview-shot-duration">时长：--</div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 右侧：预览区（桌面端显示） -->
+      <aside class="panel panel-right desktop-only">
+        <div class="panel-header">
+          <h2>🖼️ 画面预览</h2>
+        </div>
+        <div id="preview-container-desktop" class="preview-container">
+          <div class="canvas-wrapper">
+            <canvas id="preview-canvas-desktop" width="400" height="300"></canvas>
+          </div>
+          <input type="file" id="shot-thumbnail-desktop" accept="image/*" style="display:none;">
+          
+          <div class="preview-info">
+            <div id="preview-shot-number-desktop">镜头：--</div>
+            <div id="preview-shot-type-desktop">类型：--</div>
+            <div id="preview-shot-duration-desktop">时长：--</div>
+          </div>
+          
+          <!-- 画面操作按钮 -->
+          <div class="preview-actions" style="padding:12px;display:flex;flex-direction:column;gap:8px;">
+            <button type="button" id="btn-upload-shot-desktop" class="btn btn-primary" style="width:100%">📷 上传画面</button>
+          </div>
+          
+          <!-- 镜头操作按钮（桌面端） -->
+          <div id="shot-actions-container-desktop" class="shot-actions" style="padding:15px;display:flex;flex-direction:column;gap:10px;display:none;margin-top:auto;">
+            <button type="button" id="btn-save-shot-desktop" class="btn btn-success" style="width:100%">✅ 保存镜头</button>
+            <div style="display:flex;gap:10px;">
+              <button type="button" id="btn-duplicate-shot-desktop" class="btn btn-warning" style="flex:1">📋 复制</button>
+              <button type="button" id="btn-delete-shot-desktop" class="btn btn-danger" style="flex:1">🗑️ 删除</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- 底部状态栏 -->
+    <footer class="statusbar">
+      <div class="status-left">
+        <span id="status-project">项目：未命名</span>
+        <span id="status-shots">镜头数：0</span>
+      </div>
+      <div class="status-right">
+        <span id="status-saved">✅ 已保存</span>
+      </div>
+    </footer>
+    
+    <!-- 镜头操作按钮（移动端悬浮底部） -->
+    <div id="shot-actions-container-mobile" class="shot-actions shot-actions-mobile" style="display:none;">
+      <button type="button" id="btn-save-shot-mobile" class="btn btn-primary" style="flex:1">✅ 保存镜头</button>
+      <div style="display:flex;gap:10px;">
+        <button type="button" id="btn-duplicate-shot-mobile" class="btn btn-warning" style="flex:1">📋 复制</button>
+        <button type="button" id="btn-delete-shot-mobile" class="btn btn-danger" style="flex:1">🗑️ 删除</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20260309092000"></script>
+</body>
+</html>

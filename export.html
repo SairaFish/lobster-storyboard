@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 分镜 - 导出</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 0;
+      background: #f5f5f5;
+      margin: 0;
+      font-size: 14px;
+    }
+    
+    .toolbar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #4a9eff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    
+    .btn:hover {
+      background: #3a8eef;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 0;
+      padding: 20px 30px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: white;
+      border-bottom: none;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      color: white;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .header .meta {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .shots-table {
+      width: calc(100% - 40px);
+      margin: 0 20px;
+      background: white;
+      font-size: 13px;
+      margin-bottom: 0;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+    
+    .shots-table table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    
+    .shots-table th {
+      background: #1a1a2e;
+      color: white;
+      padding: 8px 6px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      vertical-align: bottom;
+    }
+    
+    .shots-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+      overflow: visible;
+    }
+    
+    .shots-table tr {
+      page-break-inside: avoid;
+    }
+    
+    .shot-number {
+      font-weight: bold;
+      color: #4a9eff;
+      font-size: 14px;
+      white-space: normal;
+      word-break: break-word;
+    }
+    
+    .shot-thumbnail {
+      width: 100%;
+      height: 80px;
+      background: #1a1a2e;
+      border-radius: 4px;
+      overflow: hidden;
+      display: block;
+    }
+    
+    .shot-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .shot-description {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.4;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    
+    .shot-meta {
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .shot-meta div {
+      margin-bottom: 3px;
+    }
+    
+    .shot-audio {
+      font-size: 13px;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    
+    .shot-audio div {
+      max-width: 160px;
+      word-wrap: break-word;
+      white-space: normal;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+    
+    .shot-audio div:last-child {
+      margin-bottom: 0;
+    }
+    
+    .shot-notes {
+      font-size: 13px;
+      color: #999;
+      word-wrap: break-word;
+      white-space: normal;
+      line-height: 1.3;
+    }
+    
+    /* 打印样式 - 放在最后确保优先级 */
+    @media print {
+      .no-print { display: none !important; }
+      
+      body { 
+        padding: 0 !important; 
+        margin: 0 !important; 
+        background: white !important; 
+        font-size: 12px !important;
+        width: 100% !important;
+      }
+      
+      .header { 
+        margin-bottom: 0 !important; 
+        padding: 15px 20px !important; 
+        box-shadow: none !important;
+        border-bottom: none !important;
+        background: #1a1a2e !important;
+      }
+      
+      .header h1 { font-size: 24px !important; margin-bottom: 8px !important; color: white !important; }
+      .header .meta { font-size: 12px !important; color: rgba(255,255,255,0.8) !important; }
+      
+      .shots-table { 
+        font-size: 12px !important; 
+        box-shadow: none !important; 
+        width: calc(100% - 20px) !important;
+        margin: 0 10px !important;
+      }
+      
+      .shots-table th { 
+        padding: 8px 5px !important; 
+        font-size: 12px !important; 
+        background: #1a1a2e !important; 
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important;
+        color: white !important;
+      }
+      
+      .shots-table td { 
+        padding: 8px 5px !important; 
+        font-size: 12px !important;
+      }
+      
+      .shot-number { font-size: 12px !important; }
+      .shot-thumbnail { height: 70px !important; }
+      .shot-description { font-size: 12px !important; }
+      .shot-meta { font-size: 12px !important; }
+      .shot-audio { font-size: 12px !important; }
+      .shot-notes { font-size: 12px !important; }
+      
+      /* 分页优化 */
+      .shots-table { page-break-inside: auto !important; }
+      .shots-table table { page-break-inside: auto !important; }
+      .shots-table tbody { display: table-row-group !important; }
+      .shots-table tr { page-break-inside: avoid !important; page-break-after: auto !important; }
+      .shots-table tr:last-child { page-break-after: avoid !important; }
+      .header { page-break-after: auto !important; page-break-before: auto !important; }
+      
+      /* 页面设置 - 横版 A4 */
+      @page { 
+        margin: 1cm !important; 
+        size: A4 landscape !important;
+      }
+      
+      html, body { 
+        height: auto !important; 
+        min-height: auto !important; 
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <button class="btn" onclick="window.print()">🖨️ 打印 / 保存 PDF</button>
+    <button class="btn btn-secondary" onclick="window.close()">❌ 关闭</button>
+  </div>
+  
+  <div class="header">
+    <h1 id="export-title">🦞 分镜 - 分镜脚本</h1>
+    <div class="meta" id="meta-info"></div>
+  </div>
+  
+  <div class="shots-table">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 45px;">镜号</th>
+          <th style="width: 110px;">画面</th>
+          <th style="width: 40px;">时长</th>
+          <th style="width: 50px;">类型</th>
+          <th style="width: 50px;">角度</th>
+          <th style="width: 70px;">摄像机</th>
+          <th style="width: 150px;">对白/旁白/环境音</th>
+          <th>描述</th>
+          <th style="width: 85px;">备注</th>
+        </tr>
+      </thead>
+      <tbody id="shots-body">
+        <!-- 镜头数据动态生成 -->
+      </tbody>
+    </table>
+  </div>
+  
+  <script>
+    // 从 localStorage 获取数据
+    let shotsData = [];
+    let projectData = {};
+    
+    try {
+      const savedShots = localStorage.getItem('storyboard_shots');
+      const savedProject = localStorage.getItem('storyboard_project');
+      
+      if (savedShots) shotsData = JSON.parse(savedShots);
+      if (savedProject) projectData = JSON.parse(savedProject);
+      
+      if (shotsData.length === 0 && window.opener) {
+        shotsData = window.opener.AppState?.shots || [];
+        projectData = window.opener.AppState?.currentProject || {};
+      }
+    } catch(e) {
+      console.error('读取数据失败:', e);
+    }
+    
+    // 更新头部信息
+    const projectTitle = projectData.title || projectData.name || '未命名项目';
+    document.getElementById('export-title').textContent = projectTitle;
+    
+    // 计算总时长
+    const totalDuration = shotsData.reduce((sum, shot) => sum + (parseFloat(shot.duration) || 0), 0);
+    
+    document.getElementById('meta-info').innerHTML = `
+      <strong>项目：</strong>${projectData.name || '未命名'} &nbsp;|&nbsp;
+      <strong>镜头数：</strong>${shotsData.length} &nbsp;|&nbsp;
+      <strong>成片时长：</strong>${totalDuration.toFixed(1)}秒 &nbsp;|&nbsp;
+      <strong>生成时间：</strong>${new Date().toLocaleString('zh-CN')}
+    `;
+    
+    // 生成表格
+    const tbody = document.getElementById('shots-body');
+    
+    if (shotsData.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#999;">暂无镜头数据</td></tr>';
+    } else {
+      shotsData.forEach(shot => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="shot-number">${shot.number.replace('-', '-&#8203;')}</span></td>
+          <td>
+            <div class="shot-thumbnail">
+              ${shot.thumbnailData 
+                ? `<img src="${shot.thumbnailData}" alt="画面">`
+                : '<span style="color:#666;font-size:11px;">无画面</span>'}
+            </div>
+          </td>
+          <td class="shot-meta"><div>${shot.duration}秒</div></td>
+          <td class="shot-meta"><div>${getShotTypeName(shot.type)}</div></td>
+          <td class="shot-meta"><div>${getAngleName(shot.angle)}</div></td>
+          <td class="shot-meta"><div>${getCameraName(shot.camera)}</div></td>
+          <td class="shot-audio">
+            ${shot.dialogue ? `<div style="color:#4a9eff;">🗣️ ${shot.dialogue}</div>` : ''}
+            ${shot.narration ? `<div style="color:#faad14;">📢 ${shot.narration}</div>` : ''}
+            ${shot.ambience ? `<div style="color:#999;">🔊 ${shot.ambience}</div>` : ''}
+          </td>
+          <td class="shot-description">
+            <div>${shot.description || '无描述'}</div>
+          </td>
+          <td class="shot-notes"><div>${shot.notes || '-'}</div></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    
+    // 辅助函数
+    function getShotTypeName(type) {
+      const names = { wide: '全景', medium: '中景', close: '特写', extreme: '大特写', over: '过肩', point: '主观' };
+      return names[type] || type;
+    }
+    
+    function getAngleName(angle) {
+      const names = { eye: '平视', high: '俯视', low: '仰视', bird: '鸟瞰', worm: '虫视' };
+      return names[angle] || angle;
+    }
+    
+    function getCameraName(camera) {
+      const names = { static: '固定', pan: '摇镜', tilt: '俯仰', zoom: '推拉', track: '跟踪', dolly: '移动', hand: '手持' };
+      return names[camera] || camera;
+    }
+  </script>
+</body>
+</html>

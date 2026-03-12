@@ -1,0 +1,1137 @@
+/* 龙虾分镜 - 样式表 */
+
+:root {
+  --primary-color: #4a9eff;
+  --primary-hover: #3a8eef;
+  --success-color: #52c41a;
+  --danger-color: #ff4d4f;
+  --warning-color: #faad14;
+  --bg-color: #1a1a2e;
+  --panel-bg: #16213e;
+  --border-color: #0f3460;
+  --text-color: #eaeaea;
+  --text-muted: #a0a0a0;
+  --item-hover: #1f4068;
+  --item-selected: #0f3460;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%; /* 防止 iOS 自动调整字体 */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ===== PC 端工具栏 ===== */
+.toolbar-desktop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toolbar-desktop-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.toolbar-desktop-left h1 {
+  font-size: 1.4em;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.toolbar-desktop-center {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar-desktop-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== 移动端工具栏 ===== */
+.toolbar-mobile {
+  display: none; /* 桌面端隐藏 */
+  flex-direction: column;
+  padding: 8px 12px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toolbar-mobile-row1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.toolbar-mobile-row1 h1 {
+  font-size: 1.2em;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.toolbar-mobile-row1 .project-title-display {
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+  margin: 0 8px;
+}
+
+.toolbar-mobile-row1 .btn-export {
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.toolbar-mobile-row2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.toolbar-mobile-row2 .btn-menu-toggle {
+  display: block;
+  padding: 6px 12px;
+  font-size: 16px;
+}
+
+.toolbar-mobile-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.toolbar-mobile-buttons .btn {
+  padding: 6px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 项目标题显示 - PC 端 */
+.project-title-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  flex: 1;
+}
+
+/* 移动端标题显示 - 桌面端隐藏 */
+.project-title-display-mobile {
+  display: none;
+}
+
+/* PC 端标题输入框 - 单一元素，readonly 切换 */
+.project-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.project-title-input-pc {
+  text-align: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 16px;
+  color: var(--text-color);
+  font-size: 14px;
+  cursor: pointer;
+  width: auto;
+  min-width: 100px;
+}
+
+.project-title-input-pc[readonly] {
+  cursor: pointer;
+  border-color: transparent;
+}
+
+.project-title-input-pc:not([readonly]) {
+  cursor: text;
+  border-color: var(--border-color);
+  background: var(--bg-color);
+}
+
+.project-title-input-pc:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.project-title-input-pc::placeholder {
+  color: var(--text-muted);
+}
+
+.toolbar-center {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 8px;
+}
+
+/* 汉堡菜单按钮 */
+.btn-menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn-menu-toggle:hover {
+  background-color: var(--item-hover);
+}
+
+/* 侧边菜单（移动端） */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 320px;
+  height: 100vh;
+  background-color: var(--panel-bg);
+  z-index: 1000;
+  transition: left 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.side-menu-header h2 {
+  font-size: 1.2em;
+}
+
+.btn-menu-close {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.btn-menu-close:hover {
+  color: var(--danger-color);
+}
+
+.side-menu-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+  display: none;
+}
+
+.menu-overlay.open {
+  display: block;
+}
+
+/* 桌面端专属 */
+.desktop-only {
+  display: block;
+}
+
+.toolbar-center {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar-right {
+  display: flex;
+  gap: 10px;
+}
+
+/* 项目标题输入框 */
+.project-title-input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
+  width: 280px;
+  transition: all 0.2s;
+}
+
+.project-title-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+}
+
+.project-title-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* 按钮样式 */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--border-color);
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--item-hover);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+}
+
+.btn-success:hover {
+  background-color: #45b015;
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+  background-color: #ff3b3c;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* 主工作区 */
+.workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 面板通用样式 */
+.panel {
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h2 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+/* 左侧面板 - 镜头列表 */
+.panel-left {
+  width: 280px;
+  min-width: 280px;
+}
+
+.shot-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.shot-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.shot-item:hover {
+  background-color: var(--item-hover);
+}
+
+.shot-item.selected {
+  background-color: var(--item-selected);
+  border-left-color: var(--primary-color);
+}
+
+.shot-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.shot-number {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.shot-duration {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.shot-description {
+  font-size: 13px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+/* 镜头缩略图 */
+.shot-thumbnail {
+  margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.shot-thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 120px;
+  object-fit: cover;
+}
+
+/* 编辑器中的画面预览 */
+.thumbnail-preview {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.thumbnail-preview img {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  margin-bottom: 10px;
+}
+
+/* 时长可视化条 */
+.duration-bar {
+  width: 100%;
+  height: 4px;
+  background-color: var(--bg-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.duration-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+/* 中间面板 - 编辑器 */
+.panel-center {
+  flex: 1;
+  min-width: 400px;
+}
+
+.editor-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.shot-editor {
+  display: none;
+}
+
+.shot-editor.active {
+  display: block;
+}
+
+.no-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 1.1em;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.form-group textarea {
+  resize: vertical;
+  /* 移动端优化 */
+  -webkit-overflow-scrolling: touch;
+}
+
+.form-group select {
+  /* 防止 iOS 缩放 */
+  font-size: 16px;
+}
+
+/* 两列表单布局 */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* 等宽字体用于镜头编号 */
+.mono-font {
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace !important;
+}
+
+/* 警告按钮（复制镜头） */
+.btn-warning {
+  background-color: var(--warning-color);
+}
+
+.btn-warning:hover {
+  background-color: #e09b0c;
+}
+
+.btn-ai {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-ai:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.btn-ai:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* 右侧面板 - 预览 */
+.panel-right {
+  width: 420px;
+  min-width: 420px;
+  border-right: none;
+}
+
+.panel-header h2 {
+  font-size: 1.1em;
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.preview-container {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  min-height: 200px;
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+#preview-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background-color: #000;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.preview-info {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: var(--bg-color);
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+}
+
+.preview-info div {
+  margin-bottom: 6px;
+  color: var(--text-muted);
+}
+
+.preview-info div:last-child {
+  margin-bottom: 0;
+}
+
+/* 状态栏 */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background-color: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.status-left, .status-right {
+  display: flex;
+  gap: 20px;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--item-hover);
+}
+
+/* 拖拽排序样式 */
+.shot-item.dragging {
+  opacity: 0.5;
+  border: 2px dashed var(--primary-color);
+}
+
+.shot-item.drag-over {
+  border-top: 2px solid var(--primary-color);
+}
+
+/* 空状态提示 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.empty-state p {
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+
+.empty-state .btn {
+  padding: 12px 32px;
+  font-size: 15px;
+}
+
+/* 添加镜头按钮包装器 */
+.add-shot-btn-wrapper {
+  padding: 10px 15px 20px 15px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 10px;
+}
+
+.add-shot-wrapper {
+  padding: 15px;
+  border-top: 1px solid var(--border-color);
+}
+
+.add-shot-wrapper .btn {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 15px;
+}
+
+/* 桌面端隐藏移动端组件 */
+.shot-actions-mobile,
+.breadcrumb {
+  display: none !important;
+}
+
+/* 响应式设计 - 手机端适配 */
+@media (max-width: 768px) {
+  /* 隐藏 PC 端工具栏，显示移动端工具栏 */
+  .toolbar-desktop {
+    display: none !important;
+  }
+  
+  .toolbar-mobile {
+    display: flex !important;
+  }
+  
+  /* 显示汉堡菜单按钮 */
+  .btn-menu-toggle {
+    display: block;
+  }
+  
+  /* 隐藏桌面端镜头列表 */
+  .desktop-only {
+    display: none !important;
+  }
+  
+  /* 移动端显示底部按钮 */
+  .shot-actions-mobile {
+    display: flex !important;
+  }
+  
+  /* 移动端标题输入框 - 单一元素，readonly 切换 */
+  .project-title-wrapper-mobile {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
+  
+  .project-title-input-mobile {
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+    width: auto;
+    min-width: 100px;
+    max-width: 200px;
+  }
+  
+  .project-title-input-mobile[readonly] {
+    cursor: pointer;
+    border-color: transparent;
+  }
+  
+  .project-title-input-mobile:not([readonly]) {
+    cursor: text;
+    border-color: var(--border-color);
+    background: var(--bg-color);
+  }
+  
+  .project-title-input-mobile:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  .project-title-input-mobile::placeholder {
+    color: var(--text-muted);
+  }
+  
+  /* 工具栏调整 - 三行布局 */
+  .toolbar {
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  /* 工具栏包装成两行 */
+  .toolbar {
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  
+  /* 第一行：标题 + 项目输入框 + 导出 PDF */
+  .toolbar-left {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    order: 1;
+  }
+  
+  .toolbar-left h1 {
+    font-size: 1.2em;
+    margin: 0;
+    white-space: nowrap;
+  }
+  
+  .toolbar-left .project-title-display {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+    margin: 0 8px;
+  }
+  
+  .toolbar-left .btn-export {
+    padding: 6px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  /* 第二行：汉堡菜单 + 三个按钮 */
+  .toolbar-center {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    order: 2;
+    margin-top: 8px;
+  }
+  
+  .toolbar-center .btn-menu-toggle {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+  
+  .toolbar-center-buttons {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .toolbar-center-buttons .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  /* 确保 toolbar-center 在移动端显示 */
+  .toolbar-center {
+    display: flex !important;
+  }
+  
+  .toolbar-center-buttons {
+    display: flex !important;
+  }
+  
+
+  
+  /* 工作区调整 */
+  .workspace {
+    flex-direction: column;
+  }
+  
+  /* 左侧面板 - 镜头列表 */
+  .panel-left {
+    width: 100%;
+    min-width: 100%;
+    height: 200px;
+    min-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  /* 中间面板 - 编辑器 */
+  .panel-center {
+    flex: 1;
+    min-width: 100%;
+    order: 2;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 右侧面板 - 预览 */
+  .panel-right {
+    width: 100%;
+    min-width: 100%;
+    height: 300px;
+    min-height: 300px;
+    border-right: none;
+    order: 3;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 预览 Canvas 调整 */
+  #preview-canvas {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+  }
+  
+  /* 预览容器可滚动 */
+  .preview-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 编辑器调整 */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 16px; /* 防止 iOS 自动缩放 */
+  }
+  
+  /* 编辑器容器可滚动 */
+  .editor-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 300px);
+  }
+  
+  /* 表单区域可滚动 */
+  .shot-editor {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 按钮调整 */
+  .panel-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .panel-header h2 {
+    font-size: 1em;
+  }
+  
+  /* 面包屑导航（仅移动端显示） */
+  .breadcrumb {
+    display: flex !important;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .breadcrumb-item {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  
+  .breadcrumb-item:hover {
+    background: var(--item-hover);
+  }
+  
+  .breadcrumb-item.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+  }
+  
+  /* 移动端面板高度 */
+  .panel-center {
+    flex: 1;
+    min-width: 100%;
+    order: 2;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 80px; /* 为底部悬浮按钮和状态栏留空间 */
+  }
+  
+  /* 镜头操作按钮（移动端悬浮底部） */
+  .shot-actions-mobile {
+    position: fixed;
+    bottom: 50px; /* 状态栏高度 */
+    left: 0;
+    right: 0;
+    background: var(--panel-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 12px 20px;
+    display: flex !important;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+  }
+  
+  .shot-actions-mobile .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  
+  /* 状态栏在底部按钮下面 */
+  .statusbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+  }
+  
+
+  
+  .btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  /* 状态栏调整 */
+  .statusbar {
+    padding: 6px 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .status-left, .status-right {
+    gap: 12px;
+  }
+  
+  /* 镜头列表项调整 */
+  .shot-item {
+    padding: 8px;
+    touch-action: none; /* 允许拖动 */
+  }
+  
+  .shot-thumbnail img {
+    max-height: 80px;
+  }
+  
+  /* 镜头列表可拖动 */
+  .shot-list {
+    touch-action: pan-y; /* 允许上下滚动 */
+  }
+  
+  .shot-item[draggable="true"] {
+    cursor: grab;
+  }
+  
+  .shot-item[draggable="true"]:active {
+    cursor: grabbing;
+  }
+  
+  /* 镜头列表可滚动 */
+  .shot-list {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* PC 端隐藏移动端组件 */
+@media (min-width: 769px) {
+  .mobile-only,
+  .breadcrumb,
+  .toolbar-mobile,
+  .shot-actions-mobile {
+    display: none !important;
+  }
+}
+
+/* 超小屏幕（如 iPhone SE） */
+@media (max-width: 375px) {
+  .toolbar h1 {
+    font-size: 1.1em;
+  }
+  
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  #preview-canvas {
+    max-height: 200px;
+  }
+}

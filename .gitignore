@@ -1,0 +1,32 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 备份文件
+*.backup.*
+*.bak
+*.tar.gz
+
+# 日志文件
+*.log
+
+# 依赖目录
+node_modules/
+
+# 临时文件
+*.tmp
+*.swp
+*~
+
+# 开发助理相关文件
+../AGENTS.md
+../SOUL.md
+../MEMORY.md
+../TOOLS.md
+../HEARTBEAT.md
+../REQ_DOC.md
+../TEST.md
+../inbox/
+../memory/
+../skills/
+../.openclaw/
