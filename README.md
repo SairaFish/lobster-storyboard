@@ -93,6 +93,12 @@ storyboard-pro/
 ### 镜头编辑
 ![镜头编辑](./docs-screenshot-edit.jpg)
 
+### 移动端适配
+![移动端](./docs-screenshot-mobile.jpg)
+
+### 导出功能
+![导出功能](./docs-screenshot-export.jpg)
+
 ### 三栏布局
 - **左侧** - 镜头列表（支持拖拽排序）
 - **中间** - 镜头编辑器
